@@ -28,7 +28,7 @@ struct BITMAP_INFOHEADER
 	uint32_t colorsImportant;
 };
 
-struct ColorTable
+struct BITMAP_COLORTABLE
 {
 	uint8_t red;
 	uint8_t green;
