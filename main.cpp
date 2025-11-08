@@ -11,7 +11,10 @@ int main(int argc, char** argv)
 	if (argc == 2)
 	{
 		OpenBMP obmp = OpenBMP(argv[1]);
-		std::cout << "Shape(y, x): " << obmp.shape();	
+		std::cout << "Shape(y, x): " << obmp.shape();
+        obmp.invertImage();
+        obmp.saveImage("iversion_"+std::string(argv[1]));
+        std::cout<<"inverted img saved as: "<<argv[1]<<std::endl;
 	}
 	
 	return 0;

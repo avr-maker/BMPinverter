@@ -21,9 +21,48 @@ OpenBMP::OpenBMP(const std::string& filename)
 		throw OpenBMPError();
 
 	if (infoHeader.bitCount != 24)
-		throw OpenBMPFormatError();			
+		throw OpenBMPFormatError();
+        int width=infoHeader.width;
+        int height=infoHeader.height;
+        int rowSize=(width*3+3)& ~3;
+        int padding=rowSize-width*3;
+        pixels.resize(width*height);
+        in.seekg(fileHeader.bfOffBits,ios::beg);
+        for(int y=0;y<height;y++){
+            for(int x=0;x<width;x++){
+                in.read(reinterpret_cast<char*>(&pixels[y*width+x]),sizeof(BITMAP_COLORTABLE));
+            }
+            in.seekg(padding,ios::cur);
+        }
 }
-
+void OpenBMP::invertImage(){
+    for(auto& pixel:pixels){
+        pixel.red=255-pixel.red;
+        pixel.green=255-pixel.green;
+        pixel.blue=255-pixel.blue;
+    }
+}
+void OpenBMP::saveImage(const string& filename){
+    std::ofstream out(filename,std::ios::binary);
+    if(!out.is_open()){
+        throw OpenBMPError();
+    }
+    out.write(reinterpret_cast<char*>(&fileHeader),sizeof(fileHeader));
+    out.write(reinterpret_cast<char*>(&infoHeader),sizeof(infoHeader));
+    int width=infoHeader.width;
+    int height=infoHeader.height;
+    int rowSize=(width*3+3)&~3;
+    int padding=rowSize-width*3;
+    out.seekp(fileHeader.bfOffBits,std::ios::beg);
+    for(int y=0;y<height;y++){
+        for(int x=0;x<width;x++){
+            out.write(reinterpret_cast<char*>(&pixels[y*width+x]),sizeof(BITMAP_COLORTABLE));
+        }
+        for(int i=0;i<padding;i++){
+            out.put(0);
+        }
+    }
+}
 std::pair<int, int> OpenBMP::shape()
 {
 	return std::make_pair(infoHeader.height, infoHeader.width);

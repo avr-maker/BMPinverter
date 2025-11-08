@@ -6,7 +6,7 @@
 #include <fstream>
 #include <cstdint>
 #include <string>
-
+#include <vector>
 using namespace std;
 
 #pragma pack(push,1)
@@ -48,9 +48,12 @@ class OpenBMP
 private:
 	BITMAP_FILEHEADER fileHeader;
 	BITMAP_INFOHEADER infoHeader;
+    vector<BITMAP_COLORTABLE> pixels;
 public:
 	OpenBMP(const std::string& filename);	
 	std::pair<int, int> shape();
+    void invertImage();
+    void saveImage(const string& filename);
 };
 
 class OpenBMPError {};
