@@ -109,6 +109,11 @@ private:
         }
         return value;
     }
+    int Kontrast_matrix[3][3]={
+        {0,-1,0},
+        {-1,5,-1},
+        {0,-1,0}
+    };
 public:
     
 	// class constructor
@@ -131,7 +136,7 @@ public:
     
     void sepia(const std::string& method);
     void Redimg();
-    
+    void sharpen();    
 	void save(const std::string& filename);
     void checkBits();
 };

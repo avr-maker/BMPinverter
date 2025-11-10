@@ -15,8 +15,8 @@ int main(int argc, char** argv)
 
 //		obmp.mirror("vertical");
 //		OpenBMP other = obmp.rgb2gray();
-        obmp.invert("arithmetic");
-		obmp.save("red_object.bmp");
+        obmp.sharpen();
+		obmp.save("sharpen_object.bmp");
 //		other.save("other.bmp");
 
 	}
