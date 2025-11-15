@@ -2,6 +2,16 @@
 
 #include "obmp.h"
 
+int OpenBMP::clamp(const int& val, const int& min, const int& max)
+{
+	return val < min ? min : ( val > max ? max : val );
+}
+
+int OpenBMP::map(int val, int from_min, int from_max, int to_min,  int to_max)
+{
+	return from_max == from_min ? to_min : ( val - from_min ) * (to_max - to_min) / (from_max - from_min) + to_min;
+}
+
 OpenBMP::OpenBMP(const std::string& filename)
 {
 	std::ifstream in(filename, ios::binary);

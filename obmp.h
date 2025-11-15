@@ -100,26 +100,14 @@ private:
     float AForRed = 0.299;
     float BForGreen = 0.587;
     float CForBlue = 0.114;
-    int clamp(int value,int min, int max){
-        if(value<min){
-            return min;
-        }
-        if(value>max){
-            return max;
-        }
-        return value;
-    }
+    int clamp(const int& val, const int&  min, const int& max);
     int Kontrast_matrix[3][3]={
         {0,-1,0},
         {-1,5,-1},
         {0,-1,0}
     };
-    int map(int value, int from_min, int form_max, int to_min, int to_max){
-        if(form_max==from_min){
-            return to_min;
-        }
-        return (value-from_min)*(to_max-to_min)/(form_max-from_min)+to_min;
-    }
+	int map(int val, int from_min, int from_max, int to_min,  int to_max);
+
 public:
     
 	// class constructor
